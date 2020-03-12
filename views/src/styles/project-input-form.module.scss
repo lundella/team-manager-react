@@ -1,0 +1,27 @@
+
+
+.project-form {
+  padding: 10px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  .title {
+    margin-bottom: 15px;
+  }
+}
+
+.input-group {
+  margin-bottom: 10px;
+}
+
+.column-label {
+  width: 170px;
+}
+
+.button-area {
+  display: block;
+  margin-right: 0;
+  margin-left: auto;
+}
