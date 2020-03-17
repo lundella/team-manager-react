@@ -1,0 +1,48 @@
+.total-area {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #F4F4FB;
+  border-bottom: 2px solid rgb(128, 206, 255);
+}
+
+.control-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+}
+.store-control-wrapper {
+  flex: 5;
+  margin-bottom: 5px;
+}
+
+.store-control-wrapper > button {
+  background-color: cornflowerblue;
+  border: none;
+  width: 120px;
+  height: 30px;
+}
+
+.year-control-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 5px;
+}
+.year-control {
+  flex: 1;
+  height: 30px;
+  border: none;
+  background-color: #85D0F5;
+  flex-basis: 20px;
+}
+
+#this-year {
+  flex: 3;
+  text-align: center;
+  line-height: 30px;
+}
+
+.information {
+  width: 100px;
+}
