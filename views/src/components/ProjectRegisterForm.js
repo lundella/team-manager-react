@@ -7,6 +7,7 @@ export default class ProjectInputForm extends React.Component {
     super(props);
     
     this.state = {
+      projectData: [],
       columns : [
         { name: '과제명', type: 'text', code: "name" },
         { name: '계정번호', type: 'text', code: "number" },
@@ -77,6 +78,13 @@ export default class ProjectInputForm extends React.Component {
     }
 
     return result;
+  }
+
+  componentDidMount() {
+    axios.get('http://203.254.173.111:4000/resource/projects')
+    .then(response => {
+      console.log(response);
+    })
   }
 
   render() {
