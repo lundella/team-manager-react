@@ -77,6 +77,7 @@ export default class Dashboard extends Component {
     this.makeResearcherListFormat = this.makeResearcherListFormat.bind(this);
     this.makeProjectDuration = this.makeProjectDuration.bind(this);
     this.saveData = this.saveData.bind(this);
+    this.changeYear = this.changeYear.bind(this);
   }
 
   componentDidMount() {
@@ -152,9 +153,10 @@ export default class Dashboard extends Component {
   getProjectsData() {
     return new Promise((resolve, reject) => {
       let projectsInformation = [];
-  
-      axios.get("http://localhost:4000/resource/projects")
+      
+      axios.get(`http://localhost:4000/resource/projects?year=${this.state.thisYear}`)
       .then(response => {
+        console.log(response);
         response.data.forEach(project => {
           let projectData = [];
           let projectInfoKeys = Object.keys(this.state.projectDataName);
@@ -298,25 +300,43 @@ export default class Dashboard extends Component {
       return e
     })
   }
+
+  changeYear(flag) {
+    console.log(flag);
+    let standardYear = this.state.thisYear;
+
+    if(flag === 'prev') {
+      standardYear = standardYear-1;
+    } else if(flag === 'next') {
+      standardYear = standardYear+1;
+    }
+
+    this.setState({
+      thisYear: standardYear
+    },()=> {
+      this.getAllData()
+      .then(allData => {
+        
+        this.setState({
+          projectsData: allData
+        })
+        allData.forEach(data => {
+          this.makeProjectDuration(data);
+        })
+      })
+    })
+
+
+
+  }
   
   render() {
     return (
       <div>
         <div className="total-area">
-          <div className="control-wrapper">
-            <div className="store-control-wrapper">
-              <Button onClick={this.changeData}>저장</Button>
-              <Button>복구</Button>
-            </div>
-            <div className="year-control-wrapper">
-              <Button className="year-control" onClick={console.log(this)}>prev</Button>
-              <div id="this-year">{this.state.thisYear}</div>
-              <Button className="year-control">next</Button>
-            </div>
-          </div>
           <Container fluid>
             <Row>
-              <Col className="information">
+              <Col className="information"  sm={4}>
                 <Grid
                   data={this.state.totalBudget}
                   columns={[{
@@ -337,7 +357,18 @@ export default class Dashboard extends Component {
                   }
                 />
               </Col>
-              <Col>
+              <Col  sm={8}>
+                <div className="control-wrapper">
+                  <div className="store-control-wrapper">
+                    <Button onClick={this.changeData}>저장</Button>
+                    <Button>복구</Button>
+                  </div>
+                  <div className="year-control-wrapper">
+                    <Button className="year-control" onClick={(e) => this.changeYear('prev', e)}>prev</Button>
+                    <div id="this-year">{this.state.thisYear}</div> 
+                    <Button className="year-control" onClick={(e) => this.changeYear('next', e)}>next</Button>
+                  </div>
+                </div>
                 <Grid
                   data={this.state.totalParticipation}
                   columns={this.state.gridColumnNames}
@@ -353,7 +384,7 @@ export default class Dashboard extends Component {
             this.state.projectsData.map((project, index) => {
               console.log(project.participation)
               return <Row key={index}>
-                <Col className="information">
+                <Col className="information" sm={4}>
                   <Grid
                     data={project.project}
                     columns={[{
@@ -374,7 +405,7 @@ export default class Dashboard extends Component {
                     }
                   />
                 </Col>
-                <Col>
+                <Col  sm={8}>
                   <Grid
                       data={project.participation}
                       columns={this.state.gridColumnNames}
